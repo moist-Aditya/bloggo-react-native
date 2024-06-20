@@ -1,37 +1,80 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Feather, FontAwesome } from "@expo/vector-icons"
+import { Stack, Tabs } from "expo-router"
+import { Text, View } from "react-native"
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+const TabIcon = ({
+  icon,
+  title,
+  color,
+  focused,
+}: {
+  icon: string
+  title: string
+  color: string
+  focused: boolean
+}) => {
+  return (
+    <View className="items-center justify-center gap-1">
+      <Feather name={icon as any} size={32} color={color} />
+      <Text
+        className={`text-xs font-psemibold ${focused ? "" : "text-stone-500"}`}
+      >
+        {title}
+      </Text>
+    </View>
+  )
+}
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-      }}>
+        tabBarActiveTintColor: "black",
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          minHeight: 60,
+          backgroundColor: "#fafaf9",
+        },
+        tabBarHideOnKeyboard: true,
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
-          title: 'Home',
+          headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <TabIcon title="Home" icon="home" color={color} focused={focused} />
           ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="create"
         options={{
-          title: 'Explore',
+          headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabIcon
+              title="Create"
+              icon="plus-circle"
+              color={color}
+              focused={focused}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabIcon
+              title="Profile"
+              icon="user"
+              color={color}
+              focused={focused}
+            />
           ),
         }}
       />
     </Tabs>
-  );
+  )
 }

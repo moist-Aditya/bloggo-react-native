@@ -1,0 +1,37 @@
+import { View, Text, Image } from "react-native"
+import React from "react"
+import { StatusBar } from "expo-status-bar"
+import { useGlobalContext } from "@/context/GlobalProvider"
+import SearchBar from "./SearchBar"
+
+const HomeHeader = () => {
+  const { user } = useGlobalContext()
+
+  return (
+    <View className="bg-stone-50 w-full sticky space-y-2 px-6 py-4 border-b border-stone-300">
+      <Text className="font-pblack text-4xl text-center pt-2">Bloggo</Text>
+
+      <View className="flex-row justify-between items-center">
+        <Text className="font-pregular text-base">
+          Welcome,{" "}
+          <Text className="underline font-psemibold">{user.username}</Text>
+        </Text>
+
+        <Image
+          source={{ uri: user.avatar }}
+          resizeMode="contain"
+          className="w-8 h-8 rounded-full"
+        />
+      </View>
+
+      <View className="w-full">
+        <SearchBar placeholder="Search..." />
+      </View>
+
+      {/* Status bar colour */}
+      <StatusBar backgroundColor="#fafaf9" style="inverted" />
+    </View>
+  )
+}
+
+export default HomeHeader
