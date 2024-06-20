@@ -117,7 +117,7 @@ export const searchBlogs = async (query: string) => {
 
     return filteredBlogs.documents
   } catch (error) {
-    console.log("Error searching blogs:", error)
+    console.log("Error in searchBlogs:", error)
 
     throw error
   }
