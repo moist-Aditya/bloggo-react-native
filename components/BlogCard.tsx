@@ -39,10 +39,10 @@ const BlogCard = ({
         <View className="flex-row justify-between items-center bg-stone-100 px-2 py-1">
           <View className="flex-row gap-1 items-center justify-start">
             <Text className="font-pregular text-sm text-stone-500">
-              By {blog.author.username}
+              By {blog.author?.username}
             </Text>
             <Image
-              source={{ uri: blog.author.avatar }}
+              source={{ uri: blog.author?.avatar }}
               resizeMode="contain"
               className="w-5 h-5 rounded-full"
             />

@@ -4,11 +4,13 @@ import { StatusBar } from "expo-status-bar"
 import { useGlobalContext } from "@/context/GlobalProvider"
 import SearchBar from "./SearchBar"
 
-const HomeHeader = () => {
+const HomeHeader = ({ hideSearch }: { hideSearch?: boolean }) => {
   const { user } = useGlobalContext()
 
   return (
-    <View className="bg-stone-50 w-full sticky space-y-2 px-6 py-4 border-b border-stone-300">
+    <View
+      className={`bg-stone-50 w-full sticky space-y-2 px-6 py-4 border-b border-stone-300`}
+    >
       <Text className="font-pblack text-4xl text-center pt-2">Bloggo</Text>
 
       <View className="flex-row justify-between items-center">
@@ -24,9 +26,11 @@ const HomeHeader = () => {
         />
       </View>
 
-      <View className="w-full">
-        <SearchBar placeholder="Search..." />
-      </View>
+      {!hideSearch && (
+        <View className="w-full">
+          <SearchBar placeholder="Search..." />
+        </View>
+      )}
 
       {/* Status bar colour */}
       <StatusBar backgroundColor="#fafaf9" style="inverted" />

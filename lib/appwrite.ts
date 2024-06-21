@@ -1,3 +1,4 @@
+import { useGlobalContext } from "@/context/GlobalProvider"
 import {
   Client,
   Account,
@@ -97,7 +98,8 @@ export const getBlogs = async () => {
   try {
     const blogs = await databases.listDocuments(
       config.databaseId,
-      config.blogCollectionId
+      config.blogCollectionId,
+      [Query.orderDesc("$createdAt")]
     )
 
     return blogs.documents
@@ -120,5 +122,38 @@ export const searchBlogs = async (query: string) => {
     console.log("Error in searchBlogs:", error)
 
     throw error
+  }
+}
+
+export const createBlog = async (blog: {
+  title: string
+  content: string
+  userId: string
+}) => {
+  try {
+    // 1. check session and get user
+    const user = await account.get()
+    if (!user) throw new Error("User not authenticated")
+
+    // 2. create document
+    const newBlog = await databases.createDocument(
+      config.databaseId,
+      config.blogCollectionId,
+      ID.unique(),
+      {
+        title: blog.title,
+        content: blog.content,
+        author: blog.userId,
+        // Implement isPublic logic
+      }
+    )
+
+    if (!newBlog) {
+      throw new Error("Could not post blog")
+    }
+
+    return newBlog
+  } catch (error) {
+    console.log("Error posting blog:", error)
   }
 }
