@@ -64,7 +64,6 @@ const CreateBlogForm = () => {
                     onChangeText={onChange}
                     value={value}
                     onBlur={onBlur}
-                    autoFocus
                   />
                 </View>
                 <Text className="text-red-500 absolute right-0 text-sm font-pregular text-center">
@@ -82,7 +81,6 @@ const CreateBlogForm = () => {
                 <Text className="text-2xl font-psemibold">Body</Text>
                 <View className="bg-stone-100 px-2 py-4 rounded-xl">
                   <TextInput
-                    autoFocus
                     multiline
                     numberOfLines={15}
                     textAlignVertical="top"

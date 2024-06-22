@@ -6,6 +6,7 @@ import {
   Databases,
   Avatars,
   Query,
+  Storage,
 } from "react-native-appwrite"
 
 export const config = {
@@ -15,12 +16,14 @@ export const config = {
   databaseId: "667132ec0004eaa051bb",
   userCollectionId: "6671331b0038c52c18ef",
   blogCollectionId: "667133460024bb2e8662",
+  storageId: "6676b0b40004489cde2f",
 }
 
 const client = new Client()
 const account = new Account(client)
 const avatars = new Avatars(client)
 const databases = new Databases(client)
+const storage = new Storage(client)
 
 client
   .setEndpoint(config.endpoint)
@@ -95,6 +98,7 @@ export const getCurrentUser = async () => {
 }
 
 export const getBlogs = async () => {
+  // add pagination to optimize flatlist
   try {
     const blogs = await databases.listDocuments(
       config.databaseId,
@@ -155,5 +159,51 @@ export const createBlog = async (blog: {
     return newBlog
   } catch (error) {
     console.log("Error posting blog:", error)
+  }
+}
+
+export const uploadImageToStorage = async (imageFile: any) => {
+  if (!imageFile) return
+
+  try {
+    const uploadedFile = await storage.createFile(
+      config.storageId,
+      ID.unique(),
+      {
+        name: imageFile.fileName,
+        type: imageFile.mimeType,
+        size: imageFile.fileSize,
+        uri: imageFile.uri,
+      }
+    )
+
+    const fileUrl = storage.getFilePreview(config.storageId, uploadedFile.$id)
+
+    return fileUrl
+  } catch (error) {
+    console.log("Error uploading file to storage", error)
+    throw error
+  }
+}
+
+export const updateUserAvatar = async (userId: string, avatarFile: any) => {
+  try {
+    const avatarUrlInStorage = await uploadImageToStorage(avatarFile)
+
+    const updatedUser = await databases.updateDocument(
+      config.databaseId,
+      config.userCollectionId,
+      userId,
+      {
+        avatar: avatarUrlInStorage,
+      }
+    )
+
+    if (!updatedUser) throw new Error("Could not update avatar in DB")
+
+    return updatedUser.avatar
+  } catch (error) {
+    console.log("Error updating user avatar: ", error)
+    throw error
   }
 }

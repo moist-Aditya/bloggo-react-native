@@ -16,7 +16,9 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
+  const fetchContext = async () => {
+    console.log("GlobalContext fetching data..")
+
     getCurrentUser()
       .then((res) => {
         if (res) {
@@ -28,11 +30,26 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         }
       })
       .finally(() => setIsLoading(false))
+  }
+
+  const refetchContext = async () => {
+    fetchContext()
+  }
+
+  useEffect(() => {
+    fetchContext()
   }, [])
 
   return (
     <GlobalContext.Provider
-      value={{ isLoggedIn, setIsLoggedIn, user, setUser, isLoading }}
+      value={{
+        isLoggedIn,
+        setIsLoggedIn,
+        user,
+        setUser,
+        isLoading,
+        refetchContext,
+      }}
     >
       {children}
     </GlobalContext.Provider>

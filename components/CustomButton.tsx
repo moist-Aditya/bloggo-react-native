@@ -3,14 +3,18 @@ import React from "react"
 
 const CustomButton = ({
   title,
+  icon,
   isLoading,
   handlePress,
   containerStyles,
+  textStyles,
   ...props
 }: {
   title: string
+  icon?: React.ReactNode
   isLoading?: boolean
   containerStyles?: string
+  textStyles?: string
   handlePress?: () => void
 }) => {
   return (
@@ -23,9 +27,14 @@ const CustomButton = ({
       activeOpacity={0.7}
       {...props}
     >
-      <Text className="text-zinc-200 font-psemibold text-center text-lg">
-        {title}
-      </Text>
+      <View className="flex-row gap-2 items-center justify-center">
+        <Text
+          className={`text-zinc-200 font-psemibold text-center text-lg ${textStyles}`}
+        >
+          {title}
+        </Text>
+        {icon}
+      </View>
     </TouchableOpacity>
   )
 }
