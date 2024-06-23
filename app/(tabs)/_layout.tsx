@@ -1,5 +1,6 @@
+import { useGlobalContext } from "@/context/GlobalProvider"
 import { Feather, FontAwesome } from "@expo/vector-icons"
-import { Stack, Tabs } from "expo-router"
+import { Redirect, Stack, Tabs } from "expo-router"
 import { Text, View } from "react-native"
 
 const TabIcon = ({
@@ -26,6 +27,10 @@ const TabIcon = ({
 }
 
 export default function TabLayout() {
+  const { isLoggedIn } = useGlobalContext()
+
+  if (!isLoggedIn) return Redirect({ href: "/" })
+
   return (
     <Tabs
       screenOptions={{

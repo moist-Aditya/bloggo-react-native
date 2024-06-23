@@ -13,10 +13,12 @@ import CustomButton from "@/components/CustomButton"
 import { useGlobalContext } from "@/context/GlobalProvider"
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
 import * as ImagePicker from "expo-image-picker"
-import { updateUserAvatar } from "@/lib/appwrite"
+import { logoutUser, updateUserAvatar } from "@/lib/appwrite"
+import { toast } from "@/lib/toast"
+import { router } from "expo-router"
 
 const Profile = () => {
-  const { user, refetchContext } = useGlobalContext()
+  const { user, setUser, setIsLoggedIn, refetchContext } = useGlobalContext()
   const [customAvatar, setCustomAvatar] = useState<any>()
   const [showModal, setShowModal] = useState(false)
 
@@ -41,6 +43,18 @@ const Profile = () => {
       setCustomAvatar(null)
     } catch (error: any) {
       Alert.alert("Error updating Avatar", error?.message)
+    }
+  }
+
+  const onLogout = async () => {
+    try {
+      const result = await logoutUser()
+      toast("Logged out")
+      router.replace("/")
+      setIsLoggedIn(false)
+      setUser(null)
+    } catch (error) {
+      toast("Could not log out")
     }
   }
 
@@ -129,6 +143,7 @@ const Profile = () => {
             title="Logout"
             icon={<MaterialIcons name="logout" size={24} color="white" />}
             containerStyles="w-full"
+            handlePress={onLogout}
           />
         </View>
       </ScrollView>

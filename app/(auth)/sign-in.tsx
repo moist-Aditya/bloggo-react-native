@@ -9,7 +9,7 @@ import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import signInSchema from "@/schemas/signInSchema"
-import { signInUser } from "@/lib/appwrite"
+import { getCurrentUser, signInUser } from "@/lib/appwrite"
 import { useGlobalContext } from "@/context/GlobalProvider"
 
 const SignIn = () => {
@@ -33,10 +33,12 @@ const SignIn = () => {
   const onSubmit = async (data: { email: string; password: string }) => {
     setIsSubmitting(true)
     try {
-      const result = await signInUser(data.email, data.password)
+      await signInUser(data.email, data.password)
 
       // set to global state
-      setUser(result)
+      const session = await getCurrentUser()
+
+      setUser(session)
       setIsLoggedIn(true)
 
       router.replace("/home")
