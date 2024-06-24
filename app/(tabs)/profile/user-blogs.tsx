@@ -1,12 +1,14 @@
-import { FlatList } from "react-native"
+import { FlatList, Text, View } from "react-native"
 import React, { useEffect, useState } from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
 import BlogCard from "@/components/BlogCard"
 import HomeHeader from "@/components/HomeHeader"
-import { getBlogs } from "@/lib/appwrite"
 import BlogCardSkeleton from "@/components/BlogCardSkeleton"
+import { getUserBlogs } from "@/lib/appwrite"
+import { useGlobalContext } from "@/context/GlobalProvider"
 
-const Home = () => {
+const UserBlogs = () => {
+  const { user } = useGlobalContext()
   const [blogs, setBlogs] = useState<any>([])
   const [isLoading, setIsLoading] = useState(false)
 
@@ -15,10 +17,10 @@ const Home = () => {
 
     setIsLoading(true)
 
-    console.log("Fetching blogs")
+    console.log("Fetching user blogs")
 
     try {
-      const result = await getBlogs()
+      const result = await getUserBlogs(user.$id)
       setBlogs(result)
     } catch (error) {
       console.log(error)
@@ -39,10 +41,10 @@ const Home = () => {
   // }
 
   return (
-    <SafeAreaView className="h-full bg-stone-200">
+    <SafeAreaView className="h-full bg-stone-200" edges={["bottom"]}>
       <FlatList
         keyboardShouldPersistTaps="handled"
-        data={blogs || []}
+        data={blogs}
         keyExtractor={(item) => item.$id}
         renderItem={({ item, index }) => {
           return isLoading ? (
@@ -55,7 +57,14 @@ const Home = () => {
           gap: 10,
           paddingBottom: 20,
         }}
-        ListHeaderComponent={<HomeHeader />}
+        ListHeaderComponent={() => (
+          <View className="px-6 py-2 bg-stone-50 justify-center items-center">
+            <Text className="text-sm font-pregular">
+              Showing blogs by{" "}
+              <Text className="font-psemibold">{user.username}</Text>
+            </Text>
+          </View>
+        )}
         stickyHeaderIndices={[0]}
         stickyHeaderHiddenOnScroll
         onRefresh={onRefresh}
@@ -65,4 +74,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default UserBlogs

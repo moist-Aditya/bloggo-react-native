@@ -136,6 +136,7 @@ const Profile = () => {
                 }
                 containerStyles="w-full bg-white shadow-sm shadow-black"
                 textStyles="text-black"
+                handlePress={() => router.push("/profile/user-blogs")}
               />
             </View>
           </View>

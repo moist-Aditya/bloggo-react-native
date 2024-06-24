@@ -122,6 +122,21 @@ export const getBlogs = async () => {
   }
 }
 
+export const getUserBlogs = async (userId: string) => {
+  try {
+    const blogs = await databases.listDocuments(
+      config.databaseId,
+      config.blogCollectionId,
+      [Query.equal("author", userId), Query.orderDesc("$createdAt")]
+    )
+
+    return blogs.documents
+  } catch (error) {
+    console.log("Error getting blogs:", error)
+    throw error
+  }
+}
+
 export const searchBlogs = async (query: string) => {
   try {
     const filteredBlogs = await databases.listDocuments(
