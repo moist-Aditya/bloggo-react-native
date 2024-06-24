@@ -5,11 +5,12 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native"
-import React, { useEffect, useState } from "react"
+import React, { Suspense, useEffect, useState } from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
 import BlogCard from "@/components/BlogCard"
 import HomeHeader from "@/components/HomeHeader"
 import { getBlogs } from "@/lib/appwrite"
+import BlogCardSkeleton from "@/components/BlogCardSkeleton"
 
 // const posts = [
 //   {
@@ -102,6 +103,7 @@ const Home = () => {
     if (isLoading) return
 
     setIsLoading(true)
+
     console.log("Fetching blogs")
 
     try {
@@ -121,9 +123,9 @@ const Home = () => {
     fetchBlogs()
   }, [])
 
-  if (isLoading) {
-    return <ActivityIndicator className="flex-1 justify-center" />
-  }
+  // if (isLoading) {
+  //   return <ActivityIndicator className="flex-1 justify-center" />
+  // }
 
   return (
     <SafeAreaView className="h-full bg-stone-200">
@@ -131,7 +133,13 @@ const Home = () => {
         keyboardShouldPersistTaps="handled"
         data={blogs || []}
         keyExtractor={(item) => item.$id}
-        renderItem={({ item, index }) => <BlogCard blog={item} key={index} />}
+        renderItem={({ item, index }) => {
+          return isLoading ? (
+            <BlogCardSkeleton key={index} />
+          ) : (
+            <BlogCard blog={item} key={index} />
+          )
+        }}
         contentContainerStyle={{
           gap: 10,
           paddingBottom: 20,

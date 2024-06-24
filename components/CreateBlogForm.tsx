@@ -8,6 +8,7 @@ import FormField from "./FormField"
 import CustomButton from "./CustomButton"
 import { createBlog } from "@/lib/appwrite"
 import { router } from "expo-router"
+import { toast } from "@/lib/toast"
 
 const CreateBlogForm = () => {
   const { user } = useGlobalContext()
@@ -34,6 +35,7 @@ const CreateBlogForm = () => {
         userId: user.$id,
       })
 
+      toast("Bloggo published!")
       router.push("/home")
     } catch (error: any) {
       Alert.alert("Error", error?.message)

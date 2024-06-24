@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  Modal,
 } from "react-native"
 import React, { useState } from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -15,7 +16,8 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
 import * as ImagePicker from "expo-image-picker"
 import { logoutUser, updateUserAvatar } from "@/lib/appwrite"
 import { toast } from "@/lib/toast"
-import { router } from "expo-router"
+import { Link, router } from "expo-router"
+import ProfileOptionsModal from "@/components/ProfileOptionsModal"
 
 const Profile = () => {
   const { user, setUser, setIsLoggedIn, refetchContext } = useGlobalContext()
@@ -113,7 +115,7 @@ const Profile = () => {
               </Text>
 
               {/* TODO: Open account options MODAL */}
-              <TouchableOpacity onPress={() => setShowModal(!showModal)}>
+              <TouchableOpacity onPress={() => setShowModal(true)}>
                 <MaterialCommunityIcons
                   name="account-cog"
                   size={32}
@@ -147,6 +149,11 @@ const Profile = () => {
           />
         </View>
       </ScrollView>
+
+      <ProfileOptionsModal
+        isVisible={showModal}
+        onClose={() => setShowModal(false)}
+      />
     </SafeAreaView>
   )
 }
