@@ -212,6 +212,14 @@ export const uploadImageToStorage = async (imageFile: any) => {
 
 export const updateUserAvatar = async (userId: string, avatarFile: any) => {
   try {
+    const { avatar: oldAvatar } = await databases.getDocument(
+      config.databaseId,
+      config.userCollectionId,
+      userId
+    )
+
+    console.log("OLD AVATAR:", oldAvatar)
+
     const avatarUrlInStorage = await uploadImageToStorage(avatarFile)
 
     const updatedUser = await databases.updateDocument(
@@ -225,9 +233,23 @@ export const updateUserAvatar = async (userId: string, avatarFile: any) => {
 
     if (!updatedUser) throw new Error("Could not update avatar in DB")
 
-    return updatedUser.avatar
+    // delete old avatar
+    const fileId = extractFileIdFromUrl(oldAvatar)
+    if (!fileId) {
+      throw new Error("Could not get fileId for old avatar.")
+    }
+    console.log("Deleting OLD AVATAR ID:", fileId)
+
+    await storage.deleteFile(config.storageId, fileId)
   } catch (error) {
     console.log("Error updating user avatar: ", error)
     throw error
   }
+}
+
+// Function to extract the file ID from the URL
+const extractFileIdFromUrl = (url: string) => {
+  const regex = /files\/([^\/]*)\/preview/
+  const match = url.match(regex)
+  return match ? match[1] : null
 }
