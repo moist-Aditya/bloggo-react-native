@@ -3,6 +3,7 @@ import React from "react"
 import { StatusBar } from "expo-status-bar"
 import { useGlobalContext } from "@/context/GlobalProvider"
 import SearchBar from "./SearchBar"
+import { Link } from "expo-router"
 
 const HomeHeader = ({ hideSearch }: { hideSearch?: boolean }) => {
   const { user } = useGlobalContext()
@@ -16,7 +17,9 @@ const HomeHeader = ({ hideSearch }: { hideSearch?: boolean }) => {
       <View className="flex-row justify-between items-center">
         <Text className="font-pregular text-base">
           Welcome,{" "}
-          <Text className="underline font-psemibold">{user.username}</Text>
+          <Link href="/profile" className="underline font-psemibold">
+            {user.username}
+          </Link>
         </Text>
 
         <Image

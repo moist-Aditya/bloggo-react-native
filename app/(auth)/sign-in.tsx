@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import signInSchema from "@/schemas/signInSchema"
 import { getCurrentUser, signInUser } from "@/lib/appwrite"
 import { useGlobalContext } from "@/context/GlobalProvider"
+import { toast } from "@/lib/toast"
 
 const SignIn = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -40,7 +41,7 @@ const SignIn = () => {
 
       setUser(session)
       setIsLoggedIn(true)
-
+      toast("Signed in successfully")
       router.replace("/home")
     } catch (error: any) {
       Alert.alert("Error", error?.message)

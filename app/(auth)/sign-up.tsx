@@ -11,6 +11,7 @@ import signUpSchema from "@/schemas/signUpSchema"
 import { createUser } from "@/lib/appwrite"
 import { z } from "zod"
 import { useGlobalContext } from "@/context/GlobalProvider"
+import { toast } from "@/lib/toast"
 
 const SignUp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -43,7 +44,7 @@ const SignUp = () => {
       // set to global state
       setUser(result)
       setIsLoggedIn(true)
-
+      toast("Registered successfully. Please log in.")
       router.replace("/home")
     } catch (error: any) {
       Alert.alert("Error", error?.message)
