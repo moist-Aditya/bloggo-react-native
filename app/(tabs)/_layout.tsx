@@ -1,6 +1,6 @@
 import { useGlobalContext } from "@/context/GlobalProvider"
-import { Feather, FontAwesome } from "@expo/vector-icons"
-import { Redirect, Stack, Tabs } from "expo-router"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
+import { Redirect, Tabs } from "expo-router"
 import { Text, View } from "react-native"
 
 const TabIcon = ({
@@ -18,7 +18,7 @@ const TabIcon = ({
 }) => {
   return (
     <View className="items-center justify-center gap-1">
-      <Feather name={icon as any} size={size} color={color} />
+      <MaterialCommunityIcons name={icon as any} size={size} color={color} />
       <Text
         className={`text-xs font-psemibold ${focused ? "" : "text-stone-500"}`}
       >
@@ -84,7 +84,7 @@ export default function TabLayout() {
             <TabIcon
               title="Profile"
               size={size}
-              icon="user"
+              icon="account"
               color={color}
               focused={focused}
             />

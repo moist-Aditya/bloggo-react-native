@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
+  ActivityIndicator,
 } from "react-native"
 import React, { useState } from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -23,13 +24,14 @@ const Profile = () => {
   const { user, setUser, setIsLoggedIn, refetchContext } = useGlobalContext()
   const [customAvatar, setCustomAvatar] = useState<any>()
   const [showModal, setShowModal] = useState(false)
+  const [isUpdating, setIsUpdating] = useState(false)
 
   const pickAvatar = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 0,
+      quality: 0.2,
     })
 
     if (!result.canceled) {
@@ -39,12 +41,15 @@ const Profile = () => {
 
   const uploadAvatar = async (avatarFile: string) => {
     try {
+      setIsUpdating(true)
       const result = await updateUserAvatar(user.$id, avatarFile)
-      if (result) Alert.alert("Updated Avatar", result)
+      toast("Avatar updated successfully")
       refetchContext()
       setCustomAvatar(null)
     } catch (error: any) {
       Alert.alert("Error updating Avatar", error?.message)
+    } finally {
+      setIsUpdating(false)
     }
   }
 
@@ -70,7 +75,7 @@ const Profile = () => {
 
         <View className="flex-1 justify-between items-center mx-6 py-14">
           {/* Profile section */}
-          <View className="space-y-6 w-full items-center">
+          <View className="space-y-10 w-full items-center">
             <Text className="text-3xl font-pbold">Profile</Text>
 
             {/* Avatar editor */}
@@ -78,7 +83,7 @@ const Profile = () => {
               <Image
                 source={{ uri: customAvatar?.uri || user.avatar }}
                 resizeMode="contain"
-                className="w-24 h-24 rounded-full"
+                className="w-[33vw] h-[33vw] rounded-full"
               />
 
               {/* TODO: Add file picker functionality */}
@@ -95,15 +100,18 @@ const Profile = () => {
               {customAvatar && (
                 <View className="flex-row items-center space-x-4">
                   <CustomButton
+                    isLoading={isUpdating}
                     title="X"
                     containerStyles="bg-red-600 py-2"
                     handlePress={() => setCustomAvatar(null)}
                   />
                   <CustomButton
+                    isLoading={isUpdating}
                     title="Upload"
                     containerStyles="py-2"
                     handlePress={() => uploadAvatar(customAvatar)}
                   />
+                  {isUpdating && <ActivityIndicator />}
                 </View>
               )}
             </View>
@@ -124,7 +132,7 @@ const Profile = () => {
               </TouchableOpacity>
             </View>
 
-            <View className="w-full pt-8">
+            <View className="w-full">
               <CustomButton
                 title="Your Posts"
                 icon={
