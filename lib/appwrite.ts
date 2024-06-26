@@ -122,6 +122,21 @@ export const getBlogs = async () => {
   }
 }
 
+export const getBlog = async (blogId: string) => {
+  try {
+    const blog = await databases.getDocument(
+      config.databaseId,
+      config.blogCollectionId,
+      blogId
+    )
+
+    return blog
+  } catch (error) {
+    console.log("Error getting blog:", error)
+    throw error
+  }
+}
+
 export const getUserBlogs = async (userId: string) => {
   try {
     const blogs = await databases.listDocuments(

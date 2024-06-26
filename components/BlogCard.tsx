@@ -1,5 +1,6 @@
 import { View, Text, Image } from "react-native"
 import React from "react"
+import { Link } from "expo-router"
 
 const BlogCard = ({
   blog,
@@ -25,9 +26,11 @@ const BlogCard = ({
         className={`w-full border border-stone-500 rounded-xl overflow-hidden bg-stone-300 ${containerStyles}`}
       >
         <View className="flex-1 px-2 pt-4 pb-6 gap-2">
-          <Text className="text-xl font-pbold text-stone-950">
-            {blog.title}
-          </Text>
+          <Link href={`/blogs/${blog.$id}`}>
+            <Text className="text-xl font-pbold text-stone-950">
+              {blog.title}
+            </Text>
+          </Link>
           <Text
             className="text-sm font-pregular text-stone-800"
             numberOfLines={3}
