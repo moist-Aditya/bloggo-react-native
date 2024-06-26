@@ -100,7 +100,12 @@ export const getCurrentUser = async () => {
 
     if (!user) throw new Error("Could not find user in database")
 
-    return user.documents[0]
+    const userDocument = {
+      ...user.documents[0],
+      email: currentUser.email,
+    }
+
+    return userDocument
   } catch (error) {
     console.log("getCurrentUser error:", error)
   }
