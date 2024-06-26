@@ -33,10 +33,17 @@ const BlogScreen = () => {
 
   return (
     <>
-      <Stack.Screen options={{ title: blog.title }} />
-      <SafeAreaView className="min-h-screen">
+      <Stack.Screen
+        options={{
+          title: blog.title,
+          headerStyle: { backgroundColor: "#fafaf9" },
+        }}
+      />
+      <SafeAreaView className="min-h-screen bg-stone">
         <ScrollView>
-          <SingleBlog blog={blog} />
+          <View className="mt-14 bg-st">
+            <SingleBlog blog={blog} />
+          </View>
         </ScrollView>
       </SafeAreaView>
     </>

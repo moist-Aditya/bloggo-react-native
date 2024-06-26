@@ -34,9 +34,6 @@ const HomeHeader = ({ hideSearch }: { hideSearch?: boolean }) => {
           <SearchBar placeholder="Search..." />
         </View>
       )}
-
-      {/* Status bar colour */}
-      <StatusBar backgroundColor="#fafaf9" style="inverted" />
     </View>
   )
 }
