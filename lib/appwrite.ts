@@ -87,6 +87,15 @@ export const logoutUser = async () => {
   }
 }
 
+export const logoutUserAllDevices = async () => {
+  try {
+    await account.deleteSessions()
+  } catch (error) {
+    console.log("Error logging out user: ", error)
+    throw error
+  }
+}
+
 export const getCurrentUser = async () => {
   try {
     const currentUser = await account.get()
@@ -272,4 +281,18 @@ const extractFileIdFromUrl = (url: string) => {
   const regex = /files\/([^\/]*)\/preview/
   const match = url.match(regex)
   return match ? match[1] : null
+}
+
+// Function to update account password
+export const updatePassword = async (
+  newPassword: string,
+  oldPassword: string
+) => {
+  try {
+    const user = await account.updatePassword(newPassword, oldPassword)
+    if (!user) throw new Error("Could not update password")
+  } catch (error: any) {
+    console.log("Error updating password: ", error.message)
+    throw error
+  }
 }

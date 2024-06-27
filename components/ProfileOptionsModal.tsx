@@ -2,6 +2,7 @@ import { View, Text, Modal, Pressable, TouchableOpacity } from "react-native"
 import React from "react"
 import CustomButton from "./CustomButton"
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
+import { Link, router } from "expo-router"
 
 const ProfileOptionsModal = ({
   isVisible,
@@ -33,6 +34,10 @@ const ProfileOptionsModal = ({
             title="Change Password"
             icon={<MaterialIcons name="lock" size={24} color="white" />}
             textStyles="text-white"
+            handlePress={() => {
+              onClose()
+              router.push("/profile/update-password")
+            }}
           />
           <CustomButton
             title="Delete Account"
@@ -41,6 +46,9 @@ const ProfileOptionsModal = ({
             }
             containerStyles="bg-red-800"
             textStyles="text-white"
+            handlePress={() => {
+              onClose()
+            }}
           />
         </View>
       </View>

@@ -40,7 +40,11 @@ export default function RootLayout() {
     // <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
     <GlobalProvider>
       <Stack
-        screenOptions={{ statusBarStyle: "dark", statusBarColor: "#fafaf9" }}
+        screenOptions={{
+          statusBarStyle: "dark",
+          statusBarColor: "#fafaf9",
+          headerStyle: { backgroundColor: "#fafaf9" },
+        }}
       >
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />

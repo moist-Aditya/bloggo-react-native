@@ -4,7 +4,13 @@ import { Stack } from "expo-router"
 
 const ProfileLayout = () => {
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        statusBarStyle: "dark",
+        statusBarColor: "#fafaf9",
+        headerStyle: { backgroundColor: "#fafaf9" },
+      }}
+    >
       <Stack.Screen
         name="index"
         options={{

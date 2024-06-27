@@ -11,7 +11,7 @@ const FormField = ({
   fieldError,
   ...textInputProps
 }: {
-  title: string
+  title?: string
   value: string
   placeholder?: string
   handleChangeText: (e: any) => void
