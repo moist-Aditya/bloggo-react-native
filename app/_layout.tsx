@@ -44,6 +44,7 @@ export default function RootLayout() {
           statusBarStyle: "dark",
           statusBarColor: "#fafaf9",
           headerStyle: { backgroundColor: "#fafaf9" },
+          navigationBarColor: "#fafaf9",
         }}
       >
         <Stack.Screen name="index" options={{ headerShown: false }} />

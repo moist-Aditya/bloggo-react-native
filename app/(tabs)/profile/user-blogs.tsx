@@ -1,4 +1,4 @@
-import { FlatList, Text, View } from "react-native"
+import { ActivityIndicator, FlatList, Text, View } from "react-native"
 import React, { useEffect, useState } from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
 import BlogCard from "@/components/BlogCard"
@@ -6,6 +6,7 @@ import HomeHeader from "@/components/HomeHeader"
 import BlogCardSkeleton from "@/components/BlogCardSkeleton"
 import { getUserBlogs } from "@/lib/appwrite"
 import { useGlobalContext } from "@/context/GlobalProvider"
+import EmptyList from "@/components/EmptyList"
 
 const UserBlogs = () => {
   const { user } = useGlobalContext()
@@ -36,12 +37,16 @@ const UserBlogs = () => {
     fetchBlogs()
   }, [])
 
-  // if (isLoading) {
-  //   return <ActivityIndicator className="flex-1 justify-center" />
-  // }
+  if (isLoading) {
+    return <ActivityIndicator className="flex-1 justify-center" />
+  }
+
+  if (blogs.length === 0) {
+    return <EmptyList />
+  }
 
   return (
-    <SafeAreaView className="h-full bg-stone-200" edges={["bottom"]}>
+    <SafeAreaView className="h-full bg-stone-200">
       <FlatList
         keyboardShouldPersistTaps="handled"
         data={blogs}
@@ -55,7 +60,6 @@ const UserBlogs = () => {
         }}
         contentContainerStyle={{
           gap: 10,
-          paddingBottom: 20,
         }}
         ListHeaderComponent={() => (
           <View className="px-6 py-2 bg-stone-50 justify-center items-center">
