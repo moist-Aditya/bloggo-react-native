@@ -1,4 +1,4 @@
-import { Image, ScrollView, Text, View } from "react-native"
+import { ActivityIndicator, Image, ScrollView, Text, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
 import { images } from "@/constants"
@@ -8,6 +8,17 @@ import { useGlobalContext } from "@/context/GlobalProvider"
 
 export default function Index() {
   const { isLoggedIn, isLoading } = useGlobalContext()
+
+  if (isLoading) {
+    return (
+      <SafeAreaView className="bg-stone-100 h-full justify-center items-center">
+        <ActivityIndicator size={"large"} color={"black"} />
+        <Text className="text-lg font-pregular text-stone-600">
+          Hold your horses...
+        </Text>
+      </SafeAreaView>
+    )
+  }
 
   if (isLoggedIn && !isLoading) {
     return <Redirect href={"/home"} />

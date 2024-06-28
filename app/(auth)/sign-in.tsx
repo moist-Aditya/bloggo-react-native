@@ -12,6 +12,7 @@ import signInSchema from "@/schemas/signInSchema"
 import { getCurrentUser, signInUser } from "@/lib/appwrite"
 import { useGlobalContext } from "@/context/GlobalProvider"
 import { toast } from "@/lib/toast"
+import { MaterialIcons } from "@expo/vector-icons"
 
 const SignIn = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -105,8 +106,10 @@ const SignIn = () => {
           <View className="mt-14">
             <CustomButton
               title="Login"
+              icon={<MaterialIcons name="login" size={24} color="white" />}
               handlePress={handleSubmit(onSubmit)}
               isLoading={isSubmitting}
+              isSubmitting={isSubmitting}
             />
             <Text className="text-right mt-7 text-stone-500 text-base font-pregular">
               Don't have an account?{" "}

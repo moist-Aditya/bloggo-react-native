@@ -118,6 +118,7 @@ const UpdatePasswordForm = () => {
           title="Submit"
           handlePress={handleSubmit(onSubmit)}
           isLoading={!isValid || isSubmitting}
+          isSubmitting={isSubmitting}
         />
       </View>
     </View>

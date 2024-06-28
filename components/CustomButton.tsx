@@ -1,10 +1,17 @@
-import { View, Text, TouchableOpacity, Alert } from "react-native"
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Alert,
+  ActivityIndicator,
+} from "react-native"
 import React from "react"
 
 const CustomButton = ({
   title,
   icon,
   isLoading,
+  isSubmitting,
   handlePress,
   containerStyles,
   textStyles,
@@ -13,6 +20,7 @@ const CustomButton = ({
   title: string
   icon?: React.ReactNode
   isLoading?: boolean
+  isSubmitting?: boolean
   containerStyles?: string
   textStyles?: string
   handlePress?: () => void
@@ -33,7 +41,7 @@ const CustomButton = ({
         >
           {title}
         </Text>
-        {icon}
+        {isSubmitting ? <ActivityIndicator color="white" /> : icon}
       </View>
     </TouchableOpacity>
   )
