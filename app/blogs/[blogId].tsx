@@ -28,7 +28,14 @@ const BlogScreen = () => {
   }, [])
 
   if (isLoading || !blog) {
-    return <ActivityIndicator />
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size={"large"} color={"black"} />
+        <Text className="text-lg font-pregular text-stone-600">
+          Please wait...
+        </Text>
+      </View>
+    )
   }
 
   return (

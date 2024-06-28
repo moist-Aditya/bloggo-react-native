@@ -27,7 +27,7 @@ const SingleBlog = ({ blog }: { blog: any }) => {
         {blog.content}
       </Text>
 
-      <Text className="text-red-600 mt-14">(TODO) Likes: {0}</Text>
+      {/* Add likes counter */}
     </View>
   )
 }
