@@ -8,9 +8,8 @@
     "scheme": "bloggo",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/images/splashscreen.png",
+      "resizeMode": "cover"
     },
     "ios": {
       "supportsTablet": true
