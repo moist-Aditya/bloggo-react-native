@@ -1,4 +1,4 @@
-import { useGlobalContext } from "@/context/GlobalProvider"
+import * as SecureStore from "expo-secure-store"
 import {
   Client,
   Account,
@@ -81,6 +81,7 @@ export const signInUser = async (email: string, password: string) => {
 export const logoutUser = async () => {
   try {
     await account.deleteSession("current")
+    await SecureStore.deleteItemAsync("session")
   } catch (error) {
     console.log("Error logging out user: ", error)
     throw error
@@ -99,7 +100,7 @@ export const logoutUserAllDevices = async () => {
 export const getCurrentUser = async () => {
   try {
     const currentUser = await account.get()
-    if (!currentUser) throw new Error("No current user")
+    if (!currentUser) return null
 
     const user = await databases.listDocuments(
       config.databaseId,
@@ -114,10 +115,11 @@ export const getCurrentUser = async () => {
       email: currentUser.email,
     }
 
+    // store userDocument in local storage
+    await SecureStore.setItemAsync("session", JSON.stringify(userDocument))
+
     return userDocument
-  } catch (error) {
-    console.log("getCurrentUser error:", error)
-  }
+  } catch (error) {}
 }
 
 export const getBlogs = async () => {

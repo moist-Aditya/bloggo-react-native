@@ -1,5 +1,6 @@
 import { getCurrentUser } from "@/lib/appwrite"
 import { createContext, useContext, useEffect, useState } from "react"
+import * as SecureStore from "expo-secure-store"
 
 const GlobalContext = createContext<any>(undefined)
 
@@ -17,19 +18,20 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true)
 
   const fetchContext = async () => {
-    console.log("GlobalContext fetching data..")
+    console.log("GlobalContext fetching data (FROM DB)")
 
-    getCurrentUser()
-      .then((res) => {
-        if (res) {
-          setUser(res)
-          setIsLoggedIn(true)
-        } else {
-          setUser(null)
-          setIsLoggedIn(false)
-        }
-      })
-      .finally(() => setIsLoading(false))
+    const session = await getCurrentUser()
+    return session
+  }
+
+  const fetchContextFromLocalStore = async () => {
+    console.log("GlobalContext fetching data (FROM LOCAL STORAGE)")
+
+    const session = await SecureStore.getItemAsync("session")
+    if (session) {
+      return JSON.parse(session)
+    }
+    return null
   }
 
   const refetchContext = async () => {
@@ -37,7 +39,31 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   useEffect(() => {
-    fetchContext()
+    const getContext = async () => {
+      try {
+        let session
+        session = await fetchContextFromLocalStore()
+
+        if (!session) {
+          console.log("Session not found in LOCAL STORAGE.. trying DB")
+          session = await fetchContext()
+        }
+        if (!session) {
+          console.log("No active session found in DB")
+          setIsLoading(false)
+          return
+        }
+
+        setUser(session)
+        setIsLoggedIn(true)
+      } catch (error) {
+        console.log("ERROR GETTING CONTEXT: ", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    getContext()
   }, [])
 
   return (
