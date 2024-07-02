@@ -5,10 +5,13 @@ import BlogCard from "@/components/BlogCard"
 import HomeHeader from "@/components/HomeHeader"
 import { getBlogs } from "@/lib/appwrite"
 import BlogCardSkeleton from "@/components/BlogCardSkeleton"
+import { useGlobalContext } from "@/context/GlobalProvider"
+import EmptyList from "@/components/EmptyList"
 
 const Home = () => {
   const [blogs, setBlogs] = useState<any>([])
   const [isLoading, setIsLoading] = useState(false)
+  const { isDark } = useGlobalContext()
 
   const fetchBlogs = async () => {
     if (isLoading) return
@@ -39,7 +42,9 @@ const Home = () => {
   // }
 
   return (
-    <SafeAreaView className="h-full bg-stone-200">
+    <SafeAreaView
+      className={`h-full ${isDark ? "bg-stone-900" : "bg-stone-200"}`}
+    >
       <FlatList
         keyboardShouldPersistTaps="handled"
         data={blogs || []}
@@ -56,6 +61,7 @@ const Home = () => {
           paddingBottom: 20,
         }}
         ListHeaderComponent={<HomeHeader />}
+        ListEmptyComponent={EmptyList}
         stickyHeaderIndices={[0]}
         stickyHeaderHiddenOnScroll
         onRefresh={onRefresh}

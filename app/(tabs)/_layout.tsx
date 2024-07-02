@@ -19,9 +19,7 @@ const TabIcon = ({
   return (
     <View className="items-center justify-center gap-1">
       <MaterialCommunityIcons name={icon as any} size={size} color={color} />
-      <Text
-        className={`text-xs font-psemibold ${focused ? "" : "text-stone-500"}`}
-      >
+      <Text style={{ color }} className={`text-xs font-psemibold`}>
         {title}
       </Text>
     </View>
@@ -29,19 +27,20 @@ const TabIcon = ({
 }
 
 export default function TabLayout() {
-  const { isLoggedIn } = useGlobalContext()
+  const { isLoggedIn, isDark } = useGlobalContext()
 
   if (!isLoggedIn) return Redirect({ href: "/" })
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "black",
+        tabBarActiveTintColor: isDark ? "white" : "black",
         tabBarShowLabel: false,
         tabBarStyle: {
           minHeight: 60,
-          backgroundColor: "#fafaf9",
+          backgroundColor: isDark ? "#0c0a09" : "#fafaf9",
           borderTopWidth: 1,
+          borderColor: isDark ? "#44403c" : "white",
         },
         tabBarHideOnKeyboard: true,
       }}

@@ -30,7 +30,7 @@ const SignIn = () => {
     mode: "all",
   })
 
-  const { setUser, setIsLoggedIn } = useGlobalContext()
+  const { setUser, setIsLoggedIn, isDark } = useGlobalContext()
 
   const onSubmit = async (data: { email: string; password: string }) => {
     setIsSubmitting(true)
@@ -53,7 +53,9 @@ const SignIn = () => {
   }
 
   return (
-    <SafeAreaView className="h-full bg-stone-200">
+    <SafeAreaView
+      className={`h-full ${isDark ? "bg-stone-900" : "bg-stone-200"}`}
+    >
       <ScrollView keyboardShouldPersistTaps="handled">
         <View className="w-full min-h-screen px-4 py-6 justify-center">
           {/* Logo */}
@@ -63,10 +65,20 @@ const SignIn = () => {
               resizeMode="contain"
               className="w-[64px] h-[64px]"
             />
-            <Text className="text-3xl font-pblack">Bloggo</Text>
+            <Text
+              className={`text-3xl font-pblack ${isDark && "text-stone-50"}`}
+            >
+              Bloggo
+            </Text>
           </View>
 
-          <Text className="mt-7 font-psemibold text-lg">Log in to Bloggo</Text>
+          <Text
+            className={`mt-7 font-psemibold text-lg ${
+              isDark && "text-stone-50"
+            }`}
+          >
+            Log in to Bloggo
+          </Text>
 
           {/* Form */}
           <View className="mt-7">
@@ -106,14 +118,29 @@ const SignIn = () => {
           <View className="mt-14">
             <CustomButton
               title="Login"
-              icon={<MaterialIcons name="login" size={24} color="white" />}
+              icon={
+                <MaterialIcons
+                  name="login"
+                  size={24}
+                  color={isDark ? "black" : "white"}
+                />
+              }
               handlePress={handleSubmit(onSubmit)}
               isLoading={isSubmitting}
               isSubmitting={isSubmitting}
             />
-            <Text className="text-right mt-7 text-stone-500 text-base font-pregular">
+            <Text
+              className={`text-right mt-7 ${
+                isDark ? "text-stone-400" : "text-stone-500"
+              } text-base font-pregular`}
+            >
               Don't have an account?{" "}
-              <Link href={"/sign-up"} className="text-stone-950 font-psemibold">
+              <Link
+                href={"/sign-up"}
+                className={`${
+                  isDark ? "text-stone-100" : "text-stone-950"
+                } font-psemibold`}
+              >
                 Register
               </Link>{" "}
               now

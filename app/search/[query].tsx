@@ -4,12 +4,13 @@ import { useLocalSearchParams } from "expo-router"
 import { searchBlogs } from "@/lib/appwrite"
 import { SafeAreaView } from "react-native-safe-area-context"
 import BlogCard from "@/components/BlogCard"
-import HomeHeader from "@/components/HomeHeader"
 import SearchBar from "@/components/SearchBar"
-import { StatusBar } from "expo-status-bar"
+import { useGlobalContext } from "@/context/GlobalProvider"
+import EmptyList from "@/components/EmptyList"
 
 const Search = () => {
   const { query } = useLocalSearchParams<{ query?: string }>()
+  const { isDark } = useGlobalContext()
 
   const [blogs, setBlogs] = useState<any>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -37,29 +38,41 @@ const Search = () => {
     fetchBlogs()
   }, [query])
 
-  if (isLoading) {
-    return <ActivityIndicator className="flex-1 justify-center" />
-  }
-
   return (
-    <SafeAreaView className="h-full bg-stone-200">
+    <SafeAreaView
+      className={`h-full ${isDark ? "bg-stone-900" : "bg-stone-200"}`}
+    >
       <FlatList
         keyboardShouldPersistTaps="handled"
         data={blogs || []}
         keyExtractor={(item) => item.$id}
-        renderItem={({ item, index }) => <BlogCard blog={item} key={index} />}
+        renderItem={({ item, index }) => <BlogCard blog={item} />}
         contentContainerStyle={{
           gap: 10,
           paddingBottom: 20,
         }}
         ListHeaderComponent={() => {
           return (
-            <View className="bg-stone-50 w-full sticky space-y-2 px-6 py-4 border-b border-stone-300">
-              <Text className="font-pblack text-4xl text-center pt-2">
+            <View
+              className={`${
+                isDark
+                  ? "bg-stone-950 border-stone-700"
+                  : "bg-stone-50 border-stone-300"
+              } w-full sticky space-y-4 px-6 py-4 border-b `}
+            >
+              <Text
+                className={`${
+                  isDark && "text-stone-50"
+                } font-pblack text-4xl text-center pt-2`}
+              >
                 Bloggo
               </Text>
 
-              <Text className="text-base">
+              <Text
+                className={`${
+                  isDark && "text-stone-50"
+                } font-pregular text-base`}
+              >
                 Search results:{" "}
                 <Text className="text-lg font-psemibold">{query}</Text>
               </Text>
@@ -71,6 +84,7 @@ const Search = () => {
           )
         }}
         stickyHeaderIndices={[0]}
+        ListEmptyComponent={isLoading ? <ActivityIndicator /> : EmptyList}
         stickyHeaderHiddenOnScroll
         onRefresh={onRefresh}
         refreshing={isLoading}

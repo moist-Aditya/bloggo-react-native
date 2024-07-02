@@ -1,4 +1,4 @@
-import { View, Text, Image } from "react-native"
+import { View, Text, Image, useColorScheme } from "react-native"
 import React from "react"
 import { StatusBar } from "expo-status-bar"
 import { useGlobalContext } from "@/context/GlobalProvider"
@@ -6,16 +6,29 @@ import SearchBar from "./SearchBar"
 import { Link } from "expo-router"
 
 const HomeHeader = ({ hideSearch }: { hideSearch?: boolean }) => {
+  const { isDark } = useGlobalContext()
   const { user } = useGlobalContext()
 
   return (
     <View
-      className={`bg-stone-50 w-full sticky space-y-2 px-6 py-4 border-b border-stone-300`}
+      className={`${
+        isDark
+          ? "bg-stone-950 border-stone-700"
+          : "bg-stone-50 border-stone-300"
+      } w-full sticky space-y-4 px-6 py-4 border-b `}
     >
-      <Text className="font-pblack text-4xl text-center pt-2">Bloggo</Text>
+      <Text
+        className={`${
+          isDark && "text-stone-50"
+        } font-pblack text-4xl text-center pt-2`}
+      >
+        Bloggo
+      </Text>
 
       <View className="flex-row justify-between items-center">
-        <Text className="font-pregular text-base">
+        <Text
+          className={`${isDark && "text-stone-50"} font-pregular text-base`}
+        >
           Welcome,{" "}
           <Link href="/profile" className="underline font-psemibold">
             {user.username}

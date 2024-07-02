@@ -11,7 +11,7 @@ import { router } from "expo-router"
 import { toast } from "@/lib/toast"
 
 const CreateBlogForm = () => {
-  const { user } = useGlobalContext()
+  const { user, isDark } = useGlobalContext()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
@@ -48,7 +48,11 @@ const CreateBlogForm = () => {
   return (
     <View className="p-6">
       <View
-        className={`w-full border border-stone-500 rounded-xl overflow-hidden bg-stone-300`}
+        className={`w-full border ${
+          isDark
+            ? "border-stone-700 bg-stone-800"
+            : "border-stone-500 bg-stone-300"
+        } rounded-xl overflow-hidden`}
       >
         <View className="flex-1 px-2 py-6">
           <Controller
@@ -56,13 +60,28 @@ const CreateBlogForm = () => {
             name={"title"}
             render={({ field: { value, onChange, onBlur } }) => (
               <View className="gap-2 mb-7 relative">
-                <Text className="text-2xl font-psemibold">Title</Text>
-                <View className="bg-stone-100 px-2 h-16 rounded-xl">
+                <Text
+                  className={`text-2xl font-psemibold ${
+                    isDark ? "text-stone-200" : "text-stone-950"
+                  }`}
+                >
+                  Title
+                </Text>
+                <View
+                  className={`${
+                    isDark ? "bg-stone-700" : "bg-stone-100"
+                  } px-2 h-16 rounded-xl`}
+                >
                   <TextInput
                     multiline
                     numberOfLines={2}
-                    className="text-lg font-psemibold flex-1 mt-0.5 rounded-xl"
+                    className={`text-lg font-psemibold flex-1 mt-0.5 rounded-xl ${
+                      isDark ? "text-stone-200" : "text-stone-950"
+                    }`}
                     placeholder="Enter a title for your Blog.."
+                    placeholderTextColor={
+                      isDark ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)"
+                    }
                     onChangeText={onChange}
                     value={value}
                     onBlur={onBlur}
@@ -80,14 +99,29 @@ const CreateBlogForm = () => {
             name={"content"}
             render={({ field: { value, onChange, onBlur } }) => (
               <View className="gap-2 mb-7 relative">
-                <Text className="text-2xl font-psemibold">Body</Text>
-                <View className="bg-stone-100 px-2 py-4 rounded-xl">
+                <Text
+                  className={`text-2xl font-psemibold ${
+                    isDark ? "text-stone-200" : "text-stone-950"
+                  }`}
+                >
+                  Body
+                </Text>
+                <View
+                  className={`${
+                    isDark ? "bg-stone-700" : "bg-stone-100"
+                  } px-2 py-4 rounded-xl`}
+                >
                   <TextInput
                     multiline
                     numberOfLines={15}
                     textAlignVertical="top"
-                    className="text-base font-pregular flex-1 mt-0.5 rounded-xl"
-                    placeholder="Enter a title for your Blog.."
+                    className={`text-base font-pregular flex-1 mt-0.5 rounded-xl ${
+                      isDark ? "text-stone-200" : "text-stone-950"
+                    }`}
+                    placeholder="Enter the content for your Blog.."
+                    placeholderTextColor={
+                      isDark ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)"
+                    }
                     onChangeText={onChange}
                     value={value}
                     onBlur={onBlur}
@@ -107,9 +141,17 @@ const CreateBlogForm = () => {
             />
           </View>
         </View>
-        <View className="flex-row justify-between items-center bg-stone-100 px-2 py-1">
+        <View
+          className={`flex-row justify-between items-center ${
+            isDark ? "bg-stone-700" : "bg-stone-100"
+          } px-2 py-1`}
+        >
           <View className="flex-row gap-1 items-center justify-start">
-            <Text className="font-pregular text-sm text-stone-500">
+            <Text
+              className={`font-pregular text-sm ${
+                isDark ? "text-stone-400" : "text-stone-500"
+              }`}
+            >
               By {user.username}
             </Text>
             <Image
@@ -118,7 +160,11 @@ const CreateBlogForm = () => {
               className="w-5 h-5 rounded-full"
             />
           </View>
-          <Text className="font-plight text-xs text-stone-500">
+          <Text
+            className={`font-plight text-xs ${
+              isDark ? "text-stone-400" : "text-stone-500"
+            }`}
+          >
             Now editing...
           </Text>
         </View>

@@ -7,13 +7,21 @@ import { Redirect, router } from "expo-router"
 import { useGlobalContext } from "@/context/GlobalProvider"
 
 export default function Index() {
-  const { isLoggedIn, isLoading } = useGlobalContext()
+  const { isLoggedIn, isLoading, isDark } = useGlobalContext()
 
   if (isLoading) {
     return (
-      <SafeAreaView className="bg-stone-100 h-full justify-center items-center">
-        <ActivityIndicator size={"large"} color={"black"} />
-        <Text className="text-lg font-pregular text-stone-600">
+      <SafeAreaView
+        className={`${
+          isDark ? "bg-stone-900" : "bg-stone-200"
+        } h-full items-center justify-center`}
+      >
+        <ActivityIndicator size={"large"} color={isDark ? "white" : "black"} />
+        <Text
+          className={`text-lg font-pregular ${
+            isDark ? "text-stone-400" : "text-stone-600"
+          }`}
+        >
           Hold your horses...
         </Text>
       </SafeAreaView>
@@ -25,10 +33,16 @@ export default function Index() {
   }
 
   return (
-    <SafeAreaView className="bg-stone-200 h-full">
+    <SafeAreaView
+      className={`${isDark ? "bg-stone-900" : "bg-stone-200"} h-full`}
+    >
       <ScrollView contentContainerStyle={{ height: "100%" }}>
         <View className="justify-center items-center h-full p-4">
-          <Text className="text-center text-5xl font-pblack p-2 text-stone-950">
+          <Text
+            className={`text-center text-5xl font-pblack p-2 ${
+              isDark ? "text-stone-50" : "text-stone-950"
+            }`}
+          >
             Bloggo
           </Text>
 
@@ -39,10 +53,18 @@ export default function Index() {
           />
 
           <View className="mt-14 items-center">
-            <Text className="text-3xl text-center font-pbold text-stone-950">
+            <Text
+              className={`text-3xl text-center font-pbold ${
+                isDark ? "text-stone-50" : "text-stone-950"
+              }`}
+            >
               Discover endless possibilities with Bloggo!
             </Text>
-            <Text className="mt-7 text-center font-pregular text-stone-600">
+            <Text
+              className={`mt-7 text-center text-sm font-pregular ${
+                isDark ? "text-stone-300" : "text-stone-600"
+              }`}
+            >
               Join our community of passionate bloggers and start your journey
               today!
             </Text>

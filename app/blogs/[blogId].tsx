@@ -5,8 +5,10 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import { getBlog } from "@/lib/appwrite"
 import { toast } from "@/lib/toast"
 import SingleBlog from "@/components/SingleBlog"
+import { useGlobalContext } from "@/context/GlobalProvider"
 
 const BlogScreen = () => {
+  const { isDark } = useGlobalContext()
   const { blogId } = useLocalSearchParams<{ blogId: string }>()
   const [blog, setBlog] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -29,12 +31,20 @@ const BlogScreen = () => {
 
   if (isLoading || !blog) {
     return (
-      <View className="flex-1 justify-center items-center">
-        <ActivityIndicator size={"large"} color={"black"} />
-        <Text className="text-lg font-pregular text-stone-600">
+      <SafeAreaView
+        className={`${
+          isDark ? "bg-stone-900" : "bg-stone-200"
+        } h-full items-center justify-center`}
+      >
+        <ActivityIndicator size={"large"} color={isDark ? "white" : "black"} />
+        <Text
+          className={`text-lg font-pregular ${
+            isDark ? "text-stone-400" : "text-stone-600"
+          }`}
+        >
           Please wait...
         </Text>
-      </View>
+      </SafeAreaView>
     )
   }
 
@@ -43,12 +53,15 @@ const BlogScreen = () => {
       <Stack.Screen
         options={{
           title: blog.title,
-          headerStyle: { backgroundColor: "#fafaf9" },
+          headerStyle: { backgroundColor: isDark ? "#222" : "#fafaf9" },
+          headerTintColor: isDark ? "#fafaf9" : "#222",
         }}
       />
-      <SafeAreaView className="min-h-screen bg-stone">
+      <SafeAreaView
+        className={`${isDark ? "bg-stone-900" : "bg-stone-200"} h-full`}
+      >
         <ScrollView>
-          <View className="mt-14 bg-st">
+          <View className="mt-14">
             <SingleBlog blog={blog} />
           </View>
         </ScrollView>

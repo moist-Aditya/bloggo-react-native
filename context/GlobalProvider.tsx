@@ -1,6 +1,7 @@
 import { getCurrentUser } from "@/lib/appwrite"
 import { createContext, useContext, useEffect, useState } from "react"
 import * as SecureStore from "expo-secure-store"
+import { useColorScheme } from "react-native"
 
 const GlobalContext = createContext<any>(undefined)
 
@@ -13,6 +14,8 @@ export const useGlobalContext = () => {
 }
 
 const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
+  const colorScheme = useColorScheme()
+  const isDark = colorScheme === "dark"
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -75,6 +78,7 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         setUser,
         isLoading,
         refetchContext,
+        isDark,
       }}
     >
       {children}

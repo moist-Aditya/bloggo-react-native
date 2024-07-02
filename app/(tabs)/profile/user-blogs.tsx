@@ -9,7 +9,7 @@ import { useGlobalContext } from "@/context/GlobalProvider"
 import EmptyList from "@/components/EmptyList"
 
 const UserBlogs = () => {
-  const { user } = useGlobalContext()
+  const { user, isDark } = useGlobalContext()
   const [blogs, setBlogs] = useState<any>([])
   const [isLoading, setIsLoading] = useState(false)
 
@@ -37,16 +37,14 @@ const UserBlogs = () => {
     fetchBlogs()
   }, [])
 
-  if (isLoading) {
-    return <ActivityIndicator className="flex-1 justify-center" />
-  }
-
-  if (blogs.length === 0) {
+  if (blogs.length === 0 && !isLoading) {
     return <EmptyList />
   }
 
   return (
-    <SafeAreaView className="h-full bg-stone-200">
+    <SafeAreaView
+      className={`h-full ${isDark ? "bg-stone-900" : "bg-stone-200"}`}
+    >
       <FlatList
         keyboardShouldPersistTaps="handled"
         data={blogs}
@@ -62,10 +60,24 @@ const UserBlogs = () => {
           gap: 10,
         }}
         ListHeaderComponent={() => (
-          <View className="px-6 py-2 bg-stone-50 justify-center items-center">
-            <Text className="text-sm font-pregular">
+          <View
+            className={`px-6 py-2 ${
+              isDark ? "bg-stone-950" : "bg-stone-50"
+            } justify-center items-center`}
+          >
+            <Text
+              className={`text-sm font-pregular ${
+                isDark ? "text-stone-300" : "text-stone-900"
+              }`}
+            >
               Showing blogs by{" "}
-              <Text className="font-psemibold">{user.username}</Text>
+              <Text
+                className={`font-psemibold ${
+                  isDark ? "text-stone-100" : "text-stone-700"
+                }`}
+              >
+                {user.username}
+              </Text>
             </Text>
           </View>
         )}

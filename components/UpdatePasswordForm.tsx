@@ -11,7 +11,7 @@ import { logoutUserAllDevices, updatePassword } from "@/lib/appwrite"
 import { useGlobalContext } from "@/context/GlobalProvider"
 
 const UpdatePasswordForm = () => {
-  const { setUser, setIsLoggedIn } = useGlobalContext()
+  const { setUser, setIsLoggedIn, isDark } = useGlobalContext()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
@@ -61,7 +61,13 @@ const UpdatePasswordForm = () => {
 
   return (
     <View className="w-full h-full px-6 justify-center">
-      <Text className="font-pbold text-5xl pt-2">Update Password</Text>
+      <Text
+        className={`font-pbold text-5xl pt-2 ${
+          isDark ? "text-stone-100" : "text-stone-900"
+        }`}
+      >
+        Update Password
+      </Text>
 
       {/* Form */}
       <View className="mt-7">
@@ -112,7 +118,7 @@ const UpdatePasswordForm = () => {
         />
       </View>
 
-      {/* Login Button */}
+      {/* Submit Button */}
       <View className="mt-14">
         <CustomButton
           title="Submit"

@@ -1,9 +1,4 @@
-import GlobalProvider from "@/context/GlobalProvider"
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native"
+import GlobalProvider, { useGlobalContext } from "@/context/GlobalProvider"
 import { useFonts } from "expo-font"
 import { SplashScreen, Stack } from "expo-router"
 import { useEffect } from "react"
@@ -12,6 +7,9 @@ import { useColorScheme } from "react-native"
 SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
+  const colorScheme = useColorScheme()
+  const isDark = colorScheme === "dark"
+
   const [fontsLoaded, error] = useFonts({
     "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
     "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
@@ -34,17 +32,15 @@ export default function RootLayout() {
     return null
   }
 
-  // const colorScheme = useColorScheme()
-
   return (
-    // <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
     <GlobalProvider>
       <Stack
         screenOptions={{
-          statusBarStyle: "dark",
-          statusBarColor: "#fafaf9",
-          headerStyle: { backgroundColor: "#fafaf9" },
-          navigationBarColor: "#fafaf9",
+          statusBarStyle: "inverted",
+          statusBarColor: isDark ? "#222" : "#fafaf9",
+          headerStyle: { backgroundColor: isDark ? "#222" : "#fafaf9" },
+          headerTintColor: isDark ? "#fafaf9" : "#222",
+          navigationBarColor: isDark ? "#222" : "#fafaf9",
         }}
       >
         <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -57,6 +53,5 @@ export default function RootLayout() {
         />
       </Stack>
     </GlobalProvider>
-    // </ThemeProvider>
   )
 }

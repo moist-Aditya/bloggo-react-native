@@ -21,7 +21,8 @@ import { Link, router } from "expo-router"
 import ProfileOptionsModal from "@/components/ProfileOptionsModal"
 
 const Profile = () => {
-  const { user, setUser, setIsLoggedIn, refetchContext } = useGlobalContext()
+  const { user, setUser, setIsLoggedIn, refetchContext, isDark } =
+    useGlobalContext()
   const [customAvatar, setCustomAvatar] = useState<any>()
   const [showModal, setShowModal] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
@@ -66,7 +67,9 @@ const Profile = () => {
   }
 
   return (
-    <SafeAreaView className="h-full">
+    <SafeAreaView
+      className={`h-full ${isDark ? "bg-stone-900" : "bg-stone-200"}`}
+    >
       <ScrollView
         contentContainerStyle={{ height: "100%" }}
         stickyHeaderIndices={[0]}
@@ -76,7 +79,13 @@ const Profile = () => {
         <View className="flex-1 justify-between items-center mx-6 py-14">
           {/* Profile section */}
           <View className="space-y-10 w-full items-center">
-            <Text className="text-3xl font-pbold">Profile</Text>
+            <Text
+              className={`text-3xl font-pbold ${
+                isDark ? "text-stone-200" : "text-stone-900"
+              }`}
+            >
+              Profile
+            </Text>
 
             {/* Avatar editor */}
             <View className="items-center space-y-1">
@@ -91,8 +100,16 @@ const Profile = () => {
                 className="flex-row items-center space-x-1"
                 onPress={pickAvatar}
               >
-                <MaterialIcons name="edit" size={18} color="rgb(120 113 108)" />
-                <Text className="font-pregular text-sm text-stone-500">
+                <MaterialIcons
+                  name="edit"
+                  size={18}
+                  color={isDark ? "rgb(229 231 235)" : "rgb(120 113 108)"}
+                />
+                <Text
+                  className={`font-pregular text-sm ${
+                    isDark ? "text-stone-400" : "text-stone-500"
+                  }`}
+                >
                   Edit
                 </Text>
               </TouchableOpacity>
@@ -118,8 +135,20 @@ const Profile = () => {
 
             {/* User options */}
             <View className="w-full flex-row justify-between items-center">
-              <Text className="text-xl font-semibold">
-                Welcome, <Text className="underline">{user.username}</Text>.
+              <Text
+                className={`text-xl font-semibold ${
+                  isDark ? "text-stone-200" : "text-stone-900"
+                }`}
+              >
+                Welcome,{" "}
+                <Text
+                  className={`underline ${
+                    isDark ? "text-stone-300" : "text-stone-700"
+                  }`}
+                >
+                  {user.username}
+                </Text>
+                .
               </Text>
 
               {/* TODO: Open account options MODAL */}
@@ -127,7 +156,7 @@ const Profile = () => {
                 <MaterialCommunityIcons
                   name="account-cog"
                   size={32}
-                  color="black"
+                  color={isDark ? "white" : "black"}
                 />
               </TouchableOpacity>
             </View>
@@ -139,11 +168,15 @@ const Profile = () => {
                   <MaterialCommunityIcons
                     name="post-outline"
                     size={32}
-                    color="black"
+                    color={isDark ? "white" : "black"}
                   />
                 }
-                containerStyles="w-full bg-white shadow-sm shadow-black"
-                textStyles="text-black"
+                containerStyles={`w-full shadow-sm ${
+                  isDark
+                    ? "bg-stone-700 shadow-stone-900"
+                    : "bg-white shadow-black"
+                }`}
+                textStyles={isDark ? "text-stone-200" : "text-black"}
                 handlePress={() => router.push("/profile/user-blogs")}
               />
             </View>
@@ -152,7 +185,13 @@ const Profile = () => {
           {/* Logout button */}
           <CustomButton
             title="Logout"
-            icon={<MaterialIcons name="logout" size={24} color="white" />}
+            icon={
+              <MaterialIcons
+                name="logout"
+                size={24}
+                color={isDark ? "black" : "white"}
+              />
+            }
             containerStyles="w-full"
             handlePress={onLogout}
           />

@@ -12,9 +12,11 @@ import { createUser } from "@/lib/appwrite"
 import { z } from "zod"
 import { useGlobalContext } from "@/context/GlobalProvider"
 import { toast } from "@/lib/toast"
+import { FontAwesome } from "@expo/vector-icons"
 
 const SignUp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const { isDark } = useGlobalContext()
 
   const {
     control,
@@ -55,7 +57,9 @@ const SignUp = () => {
   }
 
   return (
-    <SafeAreaView className="h-full bg-stone-200">
+    <SafeAreaView
+      className={`h-full ${isDark ? "bg-stone-900" : "bg-stone-200"}`}
+    >
       <ScrollView keyboardShouldPersistTaps="handled">
         <View className="w-full min-h-screen px-4 py-6 justify-center">
           {/* Logo */}
@@ -65,10 +69,18 @@ const SignUp = () => {
               resizeMode="contain"
               className="w-[64px] h-[64px]"
             />
-            <Text className="text-3xl font-pblack">Bloggo</Text>
+            <Text
+              className={`text-3xl font-pblack ${isDark && "text-stone-50"}`}
+            >
+              Bloggo
+            </Text>
           </View>
 
-          <Text className="mt-7 font-psemibold text-lg">
+          <Text
+            className={`mt-7 font-psemibold text-lg ${
+              isDark && "text-stone-50"
+            }`}
+          >
             Create a new account
           </Text>
 
@@ -127,10 +139,26 @@ const SignUp = () => {
               title="Register"
               handlePress={handleSubmit(onSubmit)}
               isLoading={isSubmitting}
+              icon={
+                <FontAwesome
+                  name="user-plus"
+                  size={24}
+                  color={isDark ? "black" : "white"}
+                />
+              }
             />
-            <Text className="text-right mt-7 text-stone-500 text-base font-pregular">
+            <Text
+              className={`text-right mt-7 ${
+                isDark ? "text-stone-400" : "text-stone-500"
+              } text-base font-pregular`}
+            >
               Already have an account?{" "}
-              <Link href={"/sign-in"} className="text-stone-950 font-psemibold">
+              <Link
+                href={"/sign-in"}
+                className={`${
+                  isDark ? "text-stone-100" : "text-stone-950"
+                } font-psemibold`}
+              >
                 Login
               </Link>{" "}
               now

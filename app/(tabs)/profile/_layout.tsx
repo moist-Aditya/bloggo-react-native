@@ -1,14 +1,17 @@
 import { View, Text } from "react-native"
 import React from "react"
 import { Stack } from "expo-router"
+import { useGlobalContext } from "@/context/GlobalProvider"
 
 const ProfileLayout = () => {
+  const { isDark } = useGlobalContext()
   return (
     <Stack
       screenOptions={{
-        statusBarStyle: "dark",
-        statusBarColor: "#fafaf9",
-        headerStyle: { backgroundColor: "#fafaf9" },
+        statusBarStyle: "inverted",
+        statusBarColor: isDark ? "#222" : "#fafaf9",
+        headerStyle: { backgroundColor: isDark ? "#222" : "#fafaf9" },
+        headerTintColor: isDark ? "#fafaf9" : "#222",
       }}
     >
       <Stack.Screen
