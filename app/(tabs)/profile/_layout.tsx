@@ -8,10 +8,8 @@ const ProfileLayout = () => {
   return (
     <Stack
       screenOptions={{
-        statusBarStyle: "inverted",
-        statusBarColor: isDark ? "#222" : "#fafaf9",
-        headerStyle: { backgroundColor: isDark ? "#222" : "#fafaf9" },
-        headerTintColor: isDark ? "#fafaf9" : "#222",
+        headerStyle: { backgroundColor: isDark ? "#0c0a09" : "#fafaf9" },
+        headerTintColor: isDark ? "#fafaf9" : "#0c0a09",
       }}
     >
       <Stack.Screen

@@ -37,10 +37,10 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           statusBarStyle: "inverted",
-          statusBarColor: isDark ? "#222" : "#fafaf9",
-          headerStyle: { backgroundColor: isDark ? "#222" : "#fafaf9" },
-          headerTintColor: isDark ? "#fafaf9" : "#222",
-          navigationBarColor: isDark ? "#222" : "#fafaf9",
+          statusBarColor: isDark ? "#0c0a09" : "#fafaf9",
+          headerStyle: { backgroundColor: isDark ? "#0c0a09" : "#fafaf9" },
+          headerTintColor: isDark ? "#fafaf9" : "#0c0a09",
+          navigationBarColor: isDark ? "#0c0a09" : "#fafaf9",
         }}
       >
         <Stack.Screen name="index" options={{ headerShown: false }} />
