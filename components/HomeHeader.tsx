@@ -1,11 +1,12 @@
-import { View, Text, Image, useColorScheme } from "react-native"
+import { View, Text, Image, Pressable } from "react-native"
 import React from "react"
 import { useGlobalContext } from "@/context/GlobalProvider"
 import SearchBar from "./SearchBar"
 import { Link } from "expo-router"
+import { MaterialIcons } from "@expo/vector-icons"
 
 const HomeHeader = ({ hideSearch }: { hideSearch?: boolean }) => {
-  const { user, isDark } = useGlobalContext()
+  const { user, isDark, toggleColorScheme } = useGlobalContext()
 
   return (
     <View
@@ -13,8 +14,19 @@ const HomeHeader = ({ hideSearch }: { hideSearch?: boolean }) => {
         isDark
           ? "bg-stone-950 border-stone-700"
           : "bg-stone-50 border-stone-300"
-      } w-full space-y-4 px-6 py-4 border-b z-50`}
+      } w-full space-y-4 px-6 py-4 border-b z-50 relative`}
     >
+      {/* TODO: Add dark mode toggle switch with absolute position */}
+      <View className="absolute h-fit right-6 top-6 z-50">
+        <Pressable onPress={toggleColorScheme} hitSlop={10}>
+          {isDark ? (
+            <MaterialIcons name="light-mode" size={32} color="white" />
+          ) : (
+            <MaterialIcons name="dark-mode" size={32} color="black" />
+          )}
+        </Pressable>
+      </View>
+
       <Text
         className={`${
           isDark && "text-stone-50"
