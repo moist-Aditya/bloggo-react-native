@@ -1,6 +1,6 @@
 import { View, Text, Image, Pressable } from "react-native"
-import React from "react"
-import { Link, router } from "expo-router"
+import React, { useEffect } from "react"
+import { router } from "expo-router"
 import { useGlobalContext } from "@/context/GlobalProvider"
 
 const BlogCard = ({
@@ -32,7 +32,7 @@ const BlogCard = ({
               : "border-stone-500 bg-stone-300"
           } rounded-xl overflow-hidden ${containerStyles}`}
         >
-          <View className="flex-1 px-2 pt-4 pb-6 gap-2">
+          <View className="px-2 pt-4 pb-6 space-y-2">
             <Text
               className={`text-xl font-pbold ${
                 isDark ? "text-stone-200" : "text-stone-950"
@@ -50,6 +50,7 @@ const BlogCard = ({
               {blog.content}
             </Text>
           </View>
+
           <View
             className={`flex-row justify-between items-center ${
               isDark ? "bg-stone-700" : "bg-stone-100"

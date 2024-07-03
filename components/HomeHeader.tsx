@@ -1,13 +1,11 @@
 import { View, Text, Image, useColorScheme } from "react-native"
 import React from "react"
-import { StatusBar } from "expo-status-bar"
 import { useGlobalContext } from "@/context/GlobalProvider"
 import SearchBar from "./SearchBar"
 import { Link } from "expo-router"
 
 const HomeHeader = ({ hideSearch }: { hideSearch?: boolean }) => {
-  const { isDark } = useGlobalContext()
-  const { user } = useGlobalContext()
+  const { user, isDark } = useGlobalContext()
 
   return (
     <View
@@ -15,7 +13,7 @@ const HomeHeader = ({ hideSearch }: { hideSearch?: boolean }) => {
         isDark
           ? "bg-stone-950 border-stone-700"
           : "bg-stone-50 border-stone-300"
-      } w-full sticky space-y-4 px-6 py-4 border-b `}
+      } w-full space-y-4 px-6 py-4 border-b z-50`}
     >
       <Text
         className={`${

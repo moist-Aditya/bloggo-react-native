@@ -95,7 +95,7 @@ const Profile = () => {
                 className="w-[33vw] h-[33vw] rounded-full"
               />
 
-              {/* TODO: Add file picker functionality */}
+              {/* TODO: Add file picker functionality*/}
               <TouchableOpacity
                 className="flex-row items-center space-x-1"
                 onPress={pickAvatar}

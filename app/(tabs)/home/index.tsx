@@ -1,4 +1,4 @@
-import { FlatList } from "react-native"
+import { ActivityIndicator, FlatList } from "react-native"
 import React, { useEffect, useState } from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
 import BlogCard from "@/components/BlogCard"
@@ -61,7 +61,7 @@ const Home = () => {
           paddingBottom: 20,
         }}
         ListHeaderComponent={<HomeHeader />}
-        ListEmptyComponent={EmptyList}
+        ListEmptyComponent={isLoading ? <ActivityIndicator /> : EmptyList}
         stickyHeaderIndices={[0]}
         stickyHeaderHiddenOnScroll
         onRefresh={onRefresh}
