@@ -266,12 +266,14 @@ export const updateUserAvatar = async (userId: string, avatarFile: any) => {
 
     // delete old avatar
     const fileId = extractFileIdFromUrl(oldAvatar)
-    if (!fileId) {
-      throw new Error("Could not get fileId for old avatar.")
-    }
-    console.log("Deleting OLD AVATAR ID:", fileId)
+    // if (!fileId) {
+    //   throw new Error("Could not get fileId for old avatar.")
+    // }
 
-    await storage.deleteFile(config.storageId, fileId)
+    if (fileId) {
+      console.log("Deleting OLD AVATAR ID:", fileId)
+      await storage.deleteFile(config.storageId, fileId as string)
+    }
   } catch (error) {
     console.log("Error updating user avatar: ", error)
     throw error
