@@ -80,8 +80,8 @@ export const signInUser = async (email: string, password: string) => {
 
 export const logoutUser = async () => {
   try {
-    await account.deleteSession("current")
     await SecureStore.deleteItemAsync("session")
+    await account.deleteSession("current")
   } catch (error) {
     console.log("Error logging out user: ", error)
     throw error
